@@ -25,9 +25,17 @@ namespace ConsoleApplication1
 			{
 				assemblies = GetAssemblies(pathToPlugins);
 			}
+			catch(DirectoryNotFoundException ex)
+			{
+				Console.WriteLine(ex.Message);
+				Console.ReadLine();
+				return;
+			}
 			catch(ArgumentNullException ex)
 			{
 				Console.WriteLine(ex.Message);
+				Console.ReadLine();
+				return;
 			}
 
 			try
@@ -37,7 +45,14 @@ namespace ConsoleApplication1
 			catch (ReflectionTypeLoadException ex)
 			{
 				Console.WriteLine(ex.Message);
-			}			
+			}		
+	
+			if(figures.Count == 0)
+			{
+				Console.WriteLine(string.Format("No DLLs have been found in {0}", pathToPlugins));
+				Console.ReadLine();
+				return;
+			}
 
 			int selectedIndex = ShowMenu(figures);
 			figures[selectedIndex - 1].Draw();
